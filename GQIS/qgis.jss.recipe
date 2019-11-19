@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Creates installer package from downloaded QGIS dmg.</string>
+	<key>Identifier</key>
+	<string>com.github.smithersjr.jss.qgis</string>
+	<key>Input</key>
+	<dict>
+		<key>CATEGORY</key>
+		<string>Productivity</string>
+		<key>POLICY_CATEGORY</key>
+		<string>Testing</string>
+		<key>POLICY_TEMPLATE</key>
+		<string>PolicyTemplate.xml</string>
+		<key>SELF_SERVICE_ICON</key>
+		<string>QGIS.png</string>
+		<key>SELF_SERVICE_DESCRIPTION</key>
+		<string>A Free and Open Source Geographic Information System</string>
+		<key>GROUP_NAME</key>
+		<string>%NAME%-update-smart</string>
+		<key>GROUP_TEMPLATE</key>
+		<string>SmartGroupTemplate.xml</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>0.6.1</string>
+    <key>ParentRecipe</key>
+    <string>com.github.smithersjr.pkg.qgis</string>
+	<key>Process</key>
+        <array>
+        <dict>
+        	<key>Processor</key>
+        	<string>JSSImporter</string>
+        	 <key>Arguments</key>
+            <dict>
+				<key>pkg_path</key>
+				<string>%pkg_path%</string>
+				<key>prod_name</key>
+				<string>%NAME%</string>
+				<key>category</key>
+				<string>%CATEGORY%</string>
+				<key>policy_category</key>
+				<string>%POLICY_CATEGORY%</string>
+				<key>policy_template</key>
+				<string>%POLICY_TEMPLATE%</string>
+				<key>self_service_icon</key>
+				<string>%SELF_SERVICE_ICON%</string>
+				<key>self_service_description</key>
+				<string>%SELF_SERVICE_DESCRIPTION%</string>
+				<key>groups</key>
+				<array>
+				    <dict>
+				        <key>name</key>
+				        <string>%GROUP_NAME%</string>
+				        <key>smart</key>
+				        <true/>
+				        <key>template_path</key>
+				        <string>%GROUP_TEMPLATE%</string>
+				    </dict>
+				</array>
+            </dict>
+        </dict>
+        <dict>
+	<key>Processor</key>
+	<string>EndOfCheckPhase</string>
+        </dict>
+        </array>
+</dict>
+</plist>
