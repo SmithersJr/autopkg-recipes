@@ -2,53 +2,76 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Comment</key>
-	<string>Created with Recipe Robot v1.1.2 (https://github.com/homebysix/recipe-robot)</string>
 	<key>Description</key>
-	<string>Downloads the latest version of Passages.</string>
+	<string>Downloads the latest version of Passages from the Ntrepid Community site.</string>
 	<key>Identifier</key>
-	<string>com.github.smithersjr.download.Passages</string>
+	<string>com.github.smithersjr.download.passages</string>
 	<key>Input</key>
 	<dict>
-		<key>DOWNLOAD_URL</key>
-		<string>https://download.getpassages.com/installers/Passages.pkg</string>
 		<key>NAME</key>
 		<string>Passages</string>
 	</dict>
 	<key>MinimumVersion</key>
-	<string>1.0.0</string>
+	<string>0.6.1</string>
 	<key>Process</key>
-	<array>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>filename</key>
-				<string>%NAME%.pkg</string>
-				<key>url</key>
-				<string>%DOWNLOAD_URL%</string>
-			</dict>
-			<key>Processor</key>
-			<string>URLDownloader</string>
-		</dict>
-		<dict>
+        <array>
+        <dict>
+        	<key>Processor</key>
+        	<string>URLDownloader</string>
+        	 <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://download.getpassages.com/installers/Passages.pkg</string>
+            </dict>
+        </dict>
+        <dict>
 			<key>Processor</key>
 			<string>EndOfCheckPhase</string>
-		</dict>
+        </dict>
 		<dict>
 			<key>Arguments</key>
 			<dict>
-				<key>expected_authority_names</key>
-				<array>
-					<string>Developer ID Installer: Ntrepid Corporation (R9MT6WU6DE)</string>
-					<string>Developer ID Certification Authority</string>
-					<string>Apple Root CA</string>
-				</array>
-				<key>input_path</key>
+				<key>flat_pkg_path</key>
 				<string>%pathname%</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/expanded</string>
 			</dict>
 			<key>Processor</key>
-			<string>CodeSignatureVerifier</string>
+			<string>FlatPkgUnpacker</string>
 		</dict>
-	</array>
+        <dict>
+            <key>Processor</key>
+            <string>PkgPayloadUnpacker</string>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack</string>
+                <key>pkg_payload_path</key>
+                <string>%RECIPE_CACHE_DIR%/expanded/Passages.pkg/Payload</string>
+            </dict>
+        </dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_plist_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/Applications/Passages.app/Contents/Info.plist</string>
+				<key>plist_version_key</key>
+				<string>CFBundleShortVersionString</string>
+			</dict>
+			<key>Processor</key>
+			<string>Versioner</string>
+		</dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgCopier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_pkg</key>
+                <string>%pathname%</string>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%-%version%.pkg</string>
+            </dict>
+		</dict>
+    </array>
 </dict>
 </plist>
