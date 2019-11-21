@@ -30,7 +30,7 @@
 	<key>MinimumVersion</key>
 	<string>1.0.0</string>
 	<key>ParentRecipe</key>
-	<string>com.github.smithersjr.download.Passages</string>
+	<string>com.github.smithersjr.download.passages</string>
 	<key>Process</key>
 	<array>
 		<dict>
